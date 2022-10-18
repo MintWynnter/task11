@@ -6,12 +6,12 @@ import { Quiz } from "../interfaces/quiz";
 import "./QuizExpanded.css";
 import { QuizQuestion } from "./QuizQuestion";
 
-export const QuizExpanded = ({
-    quiz,
-    editQuiz,
-    resetView,
-    switchEdit
-}: {}) => {
+export const QuizExpanded = (
+    quiz: Quiz,
+    editQuiz: (id: number, q: Quiz)=>void,
+    resetView: ()=> void,
+    switchEdit: ()=> void
+) => {
     const filteredQuestions = quiz.questionList.filter(
         (q: Question): boolean =>
             (quiz.published && q.published) || !quiz.published
@@ -52,8 +52,7 @@ export const QuizExpanded = ({
     const editQuestionSub = (questionId: number, sub: string) => {
         editQuiz(quiz.id, {
             ...quiz,
-            questionList: quiz.questionList.map(
-            )
+            questionList: quiz.questionList.map((q: Question)=> q.id === questionId ? {...q, submission: sub} : q)
         });
     };
 
@@ -88,17 +87,20 @@ export const QuizExpanded = ({
                 </div>
             </div>
             <p className="desc">{quiz.body}</p>
-            {filteredQuestions.map((q: Question, index: number) => (
+            {filteredQuestions.map((q: Question, index: number) => //mapping things wrong
                 <QuizQuestion
                     key={quiz.id + "|" + q.id}
                     index={index}
-                    question="q"
+                    question={q}
                     submitted={submitArr[index]}
                     handleSubmit={handleQuestionSubmit}
                     addPoints={addPoints}
                     editQuestionSub={editQuestionSub}
                 ></QuizQuestion>
-            ))}
+            )}
+            {/*{ COLORS.map((color: string) =>
+                    <option key={color} value={color}>{color}</option>
+            )}*/}
             <hr />
             <div className="footer">
                 <Button variant="danger" onClick={reset}>

@@ -11,7 +11,7 @@ export const QuestionEdit = ({
     editQuestion,
     removeQuestion,
     swapQuestion
-}: {}) => {
+}: {index: number, lastIndex: number, question: Question, editQuestion: (Question, Question) => void, removeQuestion}) => {
     const [a, b] = useState<number>(
         question.options.findIndex((s: string) => question.expected === s)
     );
