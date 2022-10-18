@@ -8,6 +8,7 @@ export const AddQuizModal = ({
 }: {
 }) => {
     const [title, setTitle] = useState<string>("Example Quiz");
+    const [body, setBody] = useState<string>("Example Body");
 
     const saveChanges = () => {
         addQuiz(title, body);
