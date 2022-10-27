@@ -12,13 +12,17 @@ export const QuizEdit = ({
     deleteQuiz,
     switchEdit,
     resetView
-}: {}) => {
+}: {quiz: Quiz, editQuiz: (ind: number, q: Quiz) => void, deleteQuiz: (ind: number) => void, switchEdit: () => void, resetView: (id: number | null) => void}) => {
     const [newQuiz, setNewQuiz] = useState<Quiz>({ ...quiz });
 
     const editQuestion = (questionId: number, newQuestion: Question) => {
         setNewQuiz({
             ...newQuiz,
             questionList: newQuiz.questionList.map(
+                (q: Question): Question => {
+                    if (q.id === questionId) {return newQuestion;}
+                    else {return q;}
+                }
             )
         });
     };
@@ -27,12 +31,13 @@ export const QuizEdit = ({
         setNewQuiz({
             ...newQuiz,
             questionList: newQuiz.questionList.filter(
+                (q: Question): boolean => q.id !== questionId
             )
         });
     };
 
     const saveChanges = () => {
-        editQuiz(quiz.id, { ...newQuiz });
+        editQuiz(quiz.id,  { ...newQuiz });
     };
 
     const swapQuestion = (idx1: number, idx2: number) => {
@@ -40,8 +45,9 @@ export const QuizEdit = ({
             ...newQuiz,
             questionList: newQuiz.questionList.map(
                 (q: Question, idx: number): Question => {
-                    if (idx === idx1) return newQuiz.questionList[idx2];
-                    if (idx === idx2) return newQuiz.questionList[idx1];
+                    if (idx === idx1) {return newQuiz.questionList[idx2];}
+                    else if (idx === idx2) {return newQuiz.questionList[idx1];}
+                    else {return q;}
                 }
             )
         });
@@ -78,7 +84,7 @@ export const QuizEdit = ({
                             ) => {
                                 setNewQuiz({
                                     ...newQuiz,
-                                    published: 
+                                    published: e.target.checked
                                 });
                             }}
                         ></Form.Check>
@@ -153,7 +159,7 @@ export const QuizEdit = ({
                         variant="danger"
                         onClick={() => {
                             deleteQuiz(quiz.id);
-                            resetView();
+                            resetView(null);
                         }}
                     >
                         Delete Quiz

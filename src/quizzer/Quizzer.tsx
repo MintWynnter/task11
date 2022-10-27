@@ -24,6 +24,10 @@ export const Quizzer = () => {
     const [quizzes, setQuizzes] = useState<Quiz[]>(QUIZZES);
     const [showAddModal, setShowAddModal] = useState(false);
 
+    function newQuiz(title: string, body: string): Quiz {
+        return {id: quizzes.length + 1, title: title, body: body, published: true, questionList: []};
+    }
+
     function editQuiz(qId: number, newQuiz: Quiz) {
         setQuizzes(
             quizzes.map((q: Quiz): Quiz => (q.id === qId ? newQuiz : q))
@@ -31,7 +35,7 @@ export const Quizzer = () => {
     }
 
     function addQuiz(title: string, body: string) {
-        setQuizzes([...quizzes, newQuiz]);
+        setQuizzes([...quizzes, newQuiz(title, body)]);
     }
 
     function deleteQuiz(qId: number) {

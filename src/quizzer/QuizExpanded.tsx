@@ -6,11 +6,11 @@ import { Quiz } from "../interfaces/quiz";
 import "./QuizExpanded.css";
 import { QuizQuestion } from "./QuizQuestion";
 
-export const QuizExpanded = (
-    quiz: Quiz,
+export const QuizExpanded = ({quiz, editQuiz, resetView, switchEdit}:
+    {quiz: Quiz,
     editQuiz: (id: number, q: Quiz)=>void,
-    resetView: ()=> void,
-    switchEdit: ()=> void
+    resetView: (id: number | null) => void,
+    switchEdit: ()=> void}
 ) => {
     const filteredQuestions = quiz.questionList.filter(
         (q: Question): boolean =>
@@ -22,14 +22,14 @@ export const QuizExpanded = (
         new Array(filteredQuestions.length)
     );
 
-    const handleQuestionSubmit = (index: number) => {
+    const handleQuestionSubmit = (index: number): void => {
         const newSubmitArr = [...submitArr];
-        newSubmitArr.splice(index, 3, true);
+        newSubmitArr.splice(index, 1, true);
         setSubmitArr(newSubmitArr);
     };
 
     const totalPoints = filteredQuestions.reduce(
-        (prev: number, q: Question): number => prev + q.p,
+        (prev: number, q: Question): number => prev + q.points,
         0
     );
 
@@ -49,7 +49,7 @@ export const QuizExpanded = (
         sp(0);
     };
 
-    const editQuestionSub = (questionId: number, sub: string) => {
+    const editQuestionSub = (questionId: number, sub: string): void => {
         editQuiz(quiz.id, {
             ...quiz,
             questionList: quiz.questionList.map((q: Question)=> q.id === questionId ? {...q, submission: sub} : q)
@@ -80,27 +80,26 @@ export const QuizExpanded = (
                     <Button
                         className="esc_button text-align-center"
                         variant="danger"
-                        onClick={resetView}
+                        onClick={() => resetView(null)}
                     >
                         {"Exit"}
                     </Button>
                 </div>
             </div>
             <p className="desc">{quiz.body}</p>
+            <div>
             {filteredQuestions.map((q: Question, index: number) => //mapping things wrong
-                <QuizQuestion
-                    key={quiz.id + "|" + q.id}
-                    index={index}
-                    question={q}
-                    submitted={submitArr[index]}
-                    handleSubmit={handleQuestionSubmit}
-                    addPoints={addPoints}
-                    editQuestionSub={editQuestionSub}
-                ></QuizQuestion>
-            )}
-            {/*{ COLORS.map((color: string) =>
-                    <option key={color} value={color}>{color}</option>
-            )}*/}
+                    <QuizQuestion
+                        key={quiz.id + "|" + q.id}
+                        index={index}
+                        question={q}
+                        submitted={submitArr[index]}
+                        handleSubmit={handleQuestionSubmit}
+                        addPoints={addPoints}
+                        editQuestionSub={editQuestionSub}
+                        ></QuizQuestion>
+                    )}
+            </div>
             <hr />
             <div className="footer">
                 <Button variant="danger" onClick={reset}>

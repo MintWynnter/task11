@@ -58,12 +58,12 @@ describe("Quizzer Tests", () => {
         for (let i = 0; i < QUIZZES[1].questionList.length; i++) {
             if (QUIZZES[1].questionList[i].published === true) {
                 expect(
-                    screen.getByText(QUIZZES[1].questionList[i].body, {
+                    screen.queryByText(QUIZZES[1].questionList[i].body, {
                         exact: false
                     })
                 ).toBeInTheDocument();
                 expect(
-                    screen.getAllByText(
+                    screen.queryAllByText(
                         QUIZZES[1].questionList[i].points + " pt",
                         { exact: false }
                     )[0]

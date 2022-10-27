@@ -11,7 +11,7 @@ export const QuestionEdit = ({
     editQuestion,
     removeQuestion,
     swapQuestion
-}: {index: number, lastIndex: number, question: Question, editQuestion: (Question, Question) => void, removeQuestion}) => {
+}: {index: number, lastIndex: number, question: Question, editQuestion: (q1: number, q2: Question) => void, removeQuestion: (ind: number) => void, swapQuestion: (q1: number, q2: number) => void}) => {
     const [a, b] = useState<number>(
         question.options.findIndex((s: string) => question.expected === s)
     );
@@ -112,7 +112,7 @@ export const QuestionEdit = ({
                                 <Form.Select
                                     className="type_dropdown"
                                     value={question.type}
-                                    onChange={handleSwitch}
+                                    onChange={switchMulti}
                                 >
                                     <option
                                         data-testid={
