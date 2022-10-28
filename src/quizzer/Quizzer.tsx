@@ -60,7 +60,7 @@ export const Quizzer = () => {
             ></AddQuizModal>
             <hr />
             <h2 style={{ color: "white" }}>Application Sketch</h2>
-            {/* <img src={require("./sketchFINAL.jpg")} /> */}
+            <img src={require("./assets/Quizzer_sketch.png")} alt="sketch" />
             <hr />
             <div style={{ color: "white" }}>
                 <h2>Completed Features</h2>
